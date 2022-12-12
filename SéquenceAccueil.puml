@@ -1,0 +1,51 @@
+@startuml séquence
+
+actor       Utilisateur as user
+participant PageAccueil as pAcc
+participant PageNutrition as pNut
+participant PageKiné as pKin
+participant PageOptométrie as pOpt
+control controleur as cont
+database    Modèle    as db
+
+==Connexion==
+
+cont -> user : affiche le menu de connexion
+user -> pAcc : se connecte
+pAcc -> db : verifie les informations
+db -> pAcc : autorise la connexion
+cont -> user : affiche l'accueil
+
+==Choix appli==
+
+alt choix Nutrition
+
+    user -> pAcc : clique bouton Nutrition
+    cont -> user : affiche la page Nutrition
+    pNut -> user : liste des recettes
+    user -> pNut : clique sur une recette
+    pNut -> db : demande recette
+    db -> pNut : répond
+    pNut -> user : affiche la recette
+    |||
+
+else choix Kiné
+
+    user -> pAcc : clique bouton Kiné
+    cont -> user : affiche la page Kiné
+    pKin -> user : affiche les programmes et exercices
+    user -> pKin : clique sur un exercice
+    pKin -> db : demande exercice
+    db -> pKin : répond
+    pKin -> user : affiche la vidéo de l'exercice
+    |||
+
+else choix Optométrie
+
+    user -> pAcc : clique bouton Optométrie
+    cont -> user : affiche la page Optométrie
+    |||
+
+end
+
+@enduml
